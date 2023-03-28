@@ -30,14 +30,14 @@ module main (
  assign ve9309f = w0;
  assign w1 = v4f58e8;
  assign ve38af7 = w4;
- assign w7 = v2097e9;
- assign v34c7a9 = w9;
+ assign v34c7a9 = w8;
+ assign w10 = v2097e9;
  assign w11 = vclk;
  assign w12 = vclk;
  assign w13 = vclk;
  assign w14 = vclk;
  assign w15 = vclk;
- assign w9 = w4;
+ assign w8 = w4;
  assign w12 = w11;
  assign w13 = w11;
  assign w13 = w12;
@@ -69,16 +69,16 @@ module main (
  main_vdb5a39 vdb5a39 (
   .data(w5),
   .txmit(w6),
-  .button(w10),
+  .button(w9),
   .clk(w14)
  );
  v8026ab vfcf217 (
-  .vedbc89(w7),
-  .v758f58(w8)
+  .v758f58(w7),
+  .vedbc89(w10)
  );
  vcfd9ba v37c8ae (
-  .v6a82dd(w8),
-  .vd4e5d7(w10),
+  .v6a82dd(w7),
+  .vd4e5d7(w9),
   .v444878(w15)
  );
 endmodule
@@ -631,17 +631,15 @@ module main_va93bf2 (
  input check,
  output exec
 );
- 
- 
-   
-   always @(posedge clk) begin
+ always @(posedge clk) begin
      if (data == 8'h4C) begin
-       exec = 1;  // trigger output if values match
+         // trigger output if values match
+         exec = 1;  
      end else begin
-       exec = 0;  // reset output if values don't match
+         // reset output if values don't match
+         exec = 0;  
      end
-   end
- 
+ end
 endmodule
 
 module main_vdb5a39 (
@@ -650,16 +648,16 @@ module main_vdb5a39 (
  output [7:0] data,
  output txmit
 );
-  reg [7:0] register_value;
+ reg [7:0] register_value;
  
-   always @(posedge clk) begin
+ always @(posedge clk) begin
      if (button) begin
-       register_value <= 8'h62;
-       txmit=1;
+         register_value <= 8'h62;// ASCII 'b'
+         txmit=1;
      end else begin
-       txmit=0;
+         txmit=0;
      end
-   end
+ end
    
-   assign data = register_value;
+ assign data = register_value;
 endmodule
