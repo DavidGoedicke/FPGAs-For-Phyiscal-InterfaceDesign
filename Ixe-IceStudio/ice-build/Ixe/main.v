@@ -9,7 +9,8 @@ module main (
  input vclk,
  output ve38af7,
  output v34c7a9,
- output ve9309f
+ output ve9309f,
+ output v777c59
 );
  wire w0;
  wire w1;
@@ -27,50 +28,53 @@ module main (
  wire w13;
  wire w14;
  wire w15;
+ wire w16;
  assign ve9309f = w0;
  assign w1 = v4f58e8;
  assign ve38af7 = w4;
  assign v34c7a9 = w8;
  assign w10 = v2097e9;
- assign w11 = vclk;
+ assign v777c59 = w11;
  assign w12 = vclk;
  assign w13 = vclk;
  assign w14 = vclk;
  assign w15 = vclk;
+ assign w16 = vclk;
  assign w8 = w4;
- assign w12 = w11;
- assign w13 = w11;
+ assign w11 = w6;
  assign w13 = w12;
- assign w14 = w11;
  assign w14 = w12;
  assign w14 = w13;
- assign w15 = w11;
  assign w15 = w12;
  assign w15 = w13;
  assign w15 = w14;
+ assign w16 = w12;
+ assign w16 = w13;
+ assign w16 = w14;
+ assign w16 = w15;
  vc6459c v26df32 (
   .v8caaa5(w0),
   .v19b8dd(w5),
   .v05e99b(w6),
-  .ve9a78f(w11)
+  .ve9a78f(w12)
  );
  vb9ce14 v2c1f6c (
   .v6a1cbe(w1),
   .v2d03ef(w2),
   .v6a2ebd(w3),
-  .v7114a9(w12)
+  .v7114a9(w13)
  );
  main_va93bf2 va93bf2 (
   .data(w2),
   .check(w3),
   .exec(w4),
-  .clk(w13)
+  .clk(w14)
  );
  main_vdb5a39 vdb5a39 (
   .data(w5),
   .txmit(w6),
   .button(w9),
-  .clk(w14)
+  .clk(w15)
  );
  v8026ab vfcf217 (
   .v758f58(w7),
@@ -79,7 +83,7 @@ module main (
  vcfd9ba v37c8ae (
   .v6a82dd(w7),
   .vd4e5d7(w9),
-  .v444878(w15)
+  .v444878(w16)
  );
 endmodule
 
@@ -632,7 +636,7 @@ module main_va93bf2 (
  output exec
 );
  always @(posedge clk) begin
-     if (data == 8'h4C) begin
+     if (data == 8'h48) begin
          // trigger output if values match
          exec = 1;  
      end else begin
@@ -648,16 +652,23 @@ module main_vdb5a39 (
  output [7:0] data,
  output txmit
 );
- reg [7:0] register_value;
+ reg [7:0] output_value;
+ reg last_button_state;
+ 
  
  always @(posedge clk) begin
-     if (button) begin
-         register_value <= 8'h62;// ASCII 'b'
+     if (button==1'b1 && last_button_state==1'b0) begin
+         last_button_state<=1;
+         output_value <= 8'h44;// ASCII 'D'
+         txmit=1;
+     end else if (button==1'b0 && last_button_state==1'b1) begin
+         last_button_state<=0;
+         output_value <=8'h4C;// ASCII 'L'
          txmit=1;
      end else begin
          txmit=0;
      end
  end
-   
- assign data = register_value;
+ 
+ assign data = output_value;
 endmodule

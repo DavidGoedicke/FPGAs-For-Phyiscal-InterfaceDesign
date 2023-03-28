@@ -1,0 +1,25 @@
+{
+  "name": "helloyou",
+  "version": "0.0.2",
+  "description": "Hello You sample program for the Interaction Engine",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikmart/interaction-engine.git"
+  },
+  "author": "Nik Martelaro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikmart/interaction-engine/issues"
+  },
+  "homepage": "https://github.com/nikmart/interaction-engine#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "serialport": "^9.0.3",
+    "socket.io": "^2.2.0"
+  }
+}

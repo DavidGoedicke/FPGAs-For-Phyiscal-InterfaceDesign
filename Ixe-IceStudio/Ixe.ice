@@ -20,8 +20,8 @@
             "pins": [
               {
                 "index": "0",
-                "name": "PIN_21",
-                "value": "B7"
+                "name": "PIN_14",
+                "value": "H9"
               }
             ]
           },
@@ -39,8 +39,8 @@
             "pins": [
               {
                 "index": "0",
-                "name": "PIN_18",
-                "value": "A9"
+                "name": "PIN_1",
+                "value": "A2"
               }
             ],
             "clock": false
@@ -70,25 +70,6 @@
           }
         },
         {
-          "id": "4796bfa6-0a21-422a-a18c-d2ace7ec7704",
-          "type": "basic.output",
-          "data": {
-            "name": "Serial_TX",
-            "virtual": false,
-            "pins": [
-              {
-                "index": "0",
-                "name": "PIN_19",
-                "value": "B8"
-              }
-            ]
-          },
-          "position": {
-            "x": 1344,
-            "y": 464
-          }
-        },
-        {
           "id": "e40922d8-986f-433a-a469-b20c63b178cb",
           "type": "basic.input",
           "data": {
@@ -97,8 +78,8 @@
             "pins": [
               {
                 "index": "0",
-                "name": "PIN_24",
-                "value": "A6"
+                "name": "PIN_15",
+                "value": "D9"
               }
             ],
             "clock": false
@@ -109,11 +90,49 @@
           }
         },
         {
+          "id": "4796bfa6-0a21-422a-a18c-d2ace7ec7704",
+          "type": "basic.output",
+          "data": {
+            "name": "Serial_TX",
+            "virtual": false,
+            "pins": [
+              {
+                "index": "0",
+                "name": "PIN_24",
+                "value": "A6"
+              }
+            ]
+          },
+          "position": {
+            "x": 1480,
+            "y": 688
+          }
+        },
+        {
+          "id": "119f9471-890a-443f-89d8-d44467f4a281",
+          "type": "basic.output",
+          "data": {
+            "name": "Serial_TX",
+            "virtual": false,
+            "pins": [
+              {
+                "index": "0",
+                "name": "PIN_10",
+                "value": "G2"
+              }
+            ]
+          },
+          "position": {
+            "x": 1384,
+            "y": 760
+          }
+        },
+        {
           "id": "add8c96e-9795-4aee-b13f-5244e6a150e2",
           "type": "c6459cf10c1547cd019a1270349def563247dd01",
           "position": {
-            "x": 1208,
-            "y": 480
+            "x": 1328,
+            "y": 568
           },
           "size": {
             "width": 96,
@@ -193,15 +212,15 @@
               ]
             },
             "params": [],
-            "code": "reg [7:0] register_value;\n\nalways @(posedge clk) begin\n    if (button) begin\n        register_value <= 8'h62;// ASCII 'b'\n        txmit=1;\n    end else begin\n        txmit=0;\n    end\nend\n  \nassign data = register_value;"
+            "code": "reg [7:0] output_value;\nreg last_button_state;\n\n\nalways @(posedge clk) begin\n    if (button==1'b1 && last_button_state==1'b0) begin\n        last_button_state<=1;\n        output_value <= 8'h44;// ASCII 'D'\n        txmit=1;\n    end else if (button==1'b0 && last_button_state==1'b1) begin\n        last_button_state<=0;\n        output_value <=8'h4C;// ASCII 'L'\n        txmit=1;\n    end else begin\n        txmit=0;\n    end\nend\n\nassign data = output_value;"
           },
           "position": {
             "x": 696,
             "y": 472
           },
           "size": {
-            "width": 400,
-            "height": 224
+            "width": 496,
+            "height": 360
           }
         },
         {
@@ -342,6 +361,16 @@
           "target": {
             "block": "5e5e51f3-35f8-4c45-9d86-cd5feae70ee3",
             "port": "bb4a1ca9-1b30-471e-92ca-ca7ff2fc1150"
+          }
+        },
+        {
+          "source": {
+            "block": "cd74b166-f16e-4713-a5cb-5c8f61b56296",
+            "port": "txmit"
+          },
+          "target": {
+            "block": "119f9471-890a-443f-89d8-d44467f4a281",
+            "port": "in"
           }
         }
       ]
